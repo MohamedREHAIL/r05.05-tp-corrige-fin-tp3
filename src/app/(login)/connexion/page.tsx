@@ -3,7 +3,7 @@ import { TextInput } from '@mantine/core';
 import { z } from 'zod';
 import { PasswordInput, Box } from '@mantine/core';
 import { zodResolver,useForm } from '@mantine/form';
-import { ProductCartLine, FormattedPrice, Button } from "tp-kit/components";
+import {ProductCartLine, FormattedPrice, Button, NoticeMessage} from "tp-kit/components";
 
 
 const schema = z.object({
@@ -24,8 +24,11 @@ export default function ConnexionPage() {
         
       });
 return<>
-    
-<Box maw={340} mx="auto">
+
+    <div className={"bg-white rounded-lg p-6 shadow-xl space-y-12 max-w-20rem  max-w-2xl mr-auto ml-auto"} >
+        <h3>Connexion</h3>
+        <NoticeMessage message={"Cette adresse n'est pas disponible"}></NoticeMessage>
+        <NoticeMessage type={"success"} message={"Votre inscription a bien été prise en compte.valider votre adresse email pour vous connecter"}></NoticeMessage>
   <form onSubmit={form.onSubmit((values) => console.log(values))}>
 
     <TextInput
@@ -41,7 +44,7 @@ return<>
   <Button fullWidth size="lg" type="submit">Se connecter</Button>
   </form>
   
-</Box>;
+</div>;
 </>
 
 }
