@@ -28,6 +28,7 @@ export default function InscriptionPage() {
     const supabase = createClientComponentClient()
 
 
+
     const handleSignUp = async () => {
       const responsess=  await supabase.auth.signUp({
             email,
@@ -119,7 +120,7 @@ export default function InscriptionPage() {
                             S'inscrire
                         </Button>
 
-                        {console.log(responses)}
+
 
                     </form>
 

@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { SectionContainer } from "tp-kit/components";
 import prisma from "../../utils/prisma";
 import { OrderTable } from "../../components/order-table";
+import {Card} from "@mantine/core";
+import {UserInformation} from "../../components/user-information";
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const orders = await prisma.order.findMany();
@@ -13,7 +15,14 @@ export default async function Layout({ children }: { children: ReactNode }) {
         <div className="bg-white rounded-lg p-6 shadow-lg">
           <OrderTable orders={orders} />
         </div>
+
+          <UserInformation></UserInformation>
+
+
+
       </SectionContainer>
+
+
 
       {/* Children */}
       {children}
