@@ -14,11 +14,12 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 
-// ... (other imports)
+
 
 export default function InscriptionPage() {
-    // Call useZodI18n once at the top level
+    useZodI18n(z);
     const form = useForm<FormValues>({
+
         initialValues: {
             name: 'fff',
             email: 'gggg@gmail.com',
@@ -27,7 +28,7 @@ export default function InscriptionPage() {
         validate: zodResolver(schema),
     });
 
-    useZodI18n(z);
+
 
     return (
         <>
@@ -36,7 +37,7 @@ export default function InscriptionPage() {
                 <NoticeMessage message={"Cette adresse n'est pas disponible"}></NoticeMessage>
                 <NoticeMessage type={"success"} message={"Votre inscription a bien été prise en compte. Validez votre adresse email pour vous connecter"}></NoticeMessage>
 
-                <ZodI18nProvider>
+
                     <form onSubmit={form.onSubmit((values) => console.log(values))}>
                         <TextInput
                             label="Nom"
@@ -58,7 +59,7 @@ export default function InscriptionPage() {
                             S'inscrire
                         </Button>
                     </form>
-                </ZodI18nProvider>
+                
             </div>
         </>
     );
