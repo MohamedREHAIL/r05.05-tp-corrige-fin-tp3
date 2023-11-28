@@ -59,7 +59,7 @@ export default function InscriptionPage() {
                             S'inscrire
                         </Button>
                     </form>
-                
+
             </div>
         </>
     );
