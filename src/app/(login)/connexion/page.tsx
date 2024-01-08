@@ -16,8 +16,8 @@ export default function ConnexionPage() {
     const form = useForm({
         validate: zodResolver(schema),
         initialValues: {
-          email: '',
-          password: '',
+          email: 'fff@gmail.com',
+          password: 'rrrrrreeeee',
           termsOfService: false,
         },
     

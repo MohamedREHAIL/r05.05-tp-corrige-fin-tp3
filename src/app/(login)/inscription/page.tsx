@@ -31,17 +31,22 @@ export default function InscriptionPage() {
 
     const handleSignUp = async () => {
       const responsess=  await supabase.auth.signUp({
+
             email,
             password,
             options: {
+                data:{
+                    name:name
+                },
                 emailRedirectTo: `${location.origin}/api/auth/callback`,
             }
 
         })
+        router.refresh()
         setResponses(responsess.error?.message)
         return responsess
 
-        // router.refresh()
+
     }
 
     const handleSignIn = async () => {
