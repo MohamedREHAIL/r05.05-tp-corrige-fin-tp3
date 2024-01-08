@@ -53,6 +53,9 @@ export default function InscriptionPage() {
        console.log( await supabase.auth.signInWithPassword({
             email,
             password,
+           options:{
+
+           }
         }))
         router.refresh()
     }
