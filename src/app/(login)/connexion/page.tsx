@@ -20,6 +20,7 @@ export default function ConnexionPage() {
     const [password, setPassword] = useState('')
     const router = useRouter()
     const supabase = createClientComponentClient()
+    let [responses, setResponses] = useState()
     useZodI18n(z);
     const form = useForm({
         validate: zodResolver(schema),
@@ -36,22 +37,36 @@ export default function ConnexionPage() {
 
 
     const handleSignIn = async () => {
-        console.log( await supabase.auth.signInWithPassword({
+        const responsess= await supabase.auth.signInWithPassword({
             email,
             password,
-        }))
-        router.refresh()
+            options: {
+                emailRedirectTo: 'localhost:3000'
+
+            }
+        })
+
+        // router.refresh()
+         setResponses(responsess.error?.message)
+        console.log(responsess)
+        return responsess
     }
 
 return<>
 
     <div className={"bg-white rounded-lg p-6 shadow-xl space-y-12 max-w-20rem  max-w-2xl mr-auto ml-auto"} >
         <h3>Connexion</h3>
-        <NoticeMessage message={"Cette adresse n'est pas disponible"}></NoticeMessage>
-        <NoticeMessage type={"success"} message={"Votre inscription a bien été prise en compte.valider votre adresse email pour vous connecter"}></NoticeMessage>
+        {/*<NoticeMessage message={"Cette adresse n'est pas disponible"}></NoticeMessage>*/}
+        {/*<NoticeMessage type={"success"} message={"Votre inscription a bien été prise en compte.valider votre adresse email pour vous connecter"}></NoticeMessage>*/}
         <ZodI18nProvider>
         <form onSubmit={form.onSubmit(handleSignIn)}>
+            {responses!=undefined?
 
+
+                <NoticeMessage message={responses}></NoticeMessage>:<p></p>
+
+
+            }
             <TextInput
                 label="adresse email"
                 placeholder="Input placeholder"

@@ -53,10 +53,11 @@ export default function InscriptionPage() {
        console.log( await supabase.auth.signInWithPassword({
             email,
             password,
-           options:{
-
+           options: {
+               emailRedirectTo: `${location.origin}`,
            }
-        }))
+
+       }))
         router.refresh()
     }
 
