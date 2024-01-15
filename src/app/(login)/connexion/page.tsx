@@ -46,9 +46,10 @@ export default function ConnexionPage() {
             }
         })
 
-        // router.refresh()
+
          setResponses(responsess.error?.message)
         console.log(responsess)
+        router.refresh()
         return responsess
     }
 
