@@ -12,7 +12,7 @@ import {useRouter} from "next/navigation";
 const UserInformation: FC<Props> = function () {
     const supabase = createClientComponentClient();
     const userPromise =getUser(supabase)
-    userPromise.then(console.log)
+
     const router = useRouter()
 
     const handleSignOut = async () => {
@@ -36,7 +36,7 @@ const UserInformation: FC<Props> = function () {
 
 
 
-        {user?console.log(user.email):console.log("eee")}
+
 
         {user ?
             <div className="bg-white rounded-lg p-6 shadow-lg mr-20">
