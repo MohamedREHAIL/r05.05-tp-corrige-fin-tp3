@@ -1,6 +1,6 @@
 "use client";
 
-import {FC, memo, Fragment, useState} from "react";
+import {FC, memo, Fragment, useState, useEffect} from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuBar, Button } from "tp-kit/components";
 import { ShoppingBag, X, User } from "@phosphor-icons/react";
@@ -10,6 +10,8 @@ import Link from "next/link";
 import {cookies} from "next/headers";
 import {createClientComponentClient, createRouteHandlerClient} from "@supabase/auth-helpers-nextjs";
 import {getUser} from "../utils/supabase";
+import type { User as SupabaseUser } from '@supabase/gotrue-js';
+
 
 type Props = {};
 
@@ -18,19 +20,15 @@ const Menu: FC<Props> = memo(  function () {
     const supabase = createClientComponentClient();
     const userPromise =getUser(supabase)
 
-    const[user,setUser]=useState(null)
+    const[user,setUser]=useState<SupabaseUser|null>(null)
 
+    useEffect(()=>{
+        userPromise.then(function(user) {
+            setUser(user)
+        });
 
+    },[]);
 
-    userPromise.then(function(resultat) {
-        // Vous pouvez accéder à l'objet user ici
-        var users = resultat;
-        setUser(users)
-        //console.log(user);
-    }).catch(function(erreur) {
-        // Gérer les erreurs ici, si nécessaire
-        console.error(erreur);
-    });
     return (
         <MenuBar
             trailing={
