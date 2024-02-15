@@ -6,31 +6,34 @@ import {createClientComponentClient} from "@supabase/auth-helpers-nextjs";
 import {OrderDetailsLayout} from "tp-kit/components";
 
 
+
 const RealTimeOrderDetails = ({ order }) => {
     const [realTimeOrder, setRealTimeOrder] = useState(order);
     const supabase = createClientComponentClient()
 
+
     useEffect(() => {
-        let subscription;
+     
         const fetchOrder = async () => {
-            subscription = supabase
-                .from('Order')
-                .select('*')
-                .eq('id', order.id)
-                .subscribe((payload) => {
-                    if (payload.eventType === 'UPDATE') {
-                        setRealTimeOrder(payload.new);
-                    }
-                });
+            const channel = supabase
+                .channel('Order')
+                .on(
+                    'postgres_changes',
+                    {
+                        event: 'UPDATE',
+                        schema: 'public',
+                        table:'Order'
+                    },
+                    (payload) => setRealTimeOrder(payload.new)
+
+                )
+                .subscribe()
+
         };
 
         fetchOrder();
 
-        return () => {
-            if (subscription) {
-                subscription.unsubscribe();
-            }
-        };
+
     }, [order]);
 
     return <OrderDetailsLayout order={realTimeOrder} />;
