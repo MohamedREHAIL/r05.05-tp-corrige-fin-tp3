@@ -17,7 +17,7 @@ import {
 import { AddToCartButton } from "../../../components/add-to-cart-button";
 import { cache } from "react";
 import prisma from "../../../utils/prisma";
-import { notFound } from "next/navigation";
+import {notFound, useRouter} from "next/navigation";
 
 const getProduct = cache((slug: string) => prisma.product.findUnique({
   where: {slug},
@@ -41,6 +41,7 @@ export async function generateMetadata({
   params,
   searchParams,
 }: NextPageProps<Props>): Promise<Metadata> {
+  //console.log(params)
   const product = await getProduct(params.productSlug);
   if (!product) return {};
 
@@ -60,9 +61,31 @@ const productAttributes: ProductAttribute[] = [
   { label: "Instagramabilité", rating: 5 },
 ];
 
+export async function generateStaticParams() {
+  const products = await prisma.product.findMany(
+      {
+        include: {
+          category: true,
+        }
+      }
+  );
+
+  return products.map((product) => ({
+    categorySlug: product.category.slug,
+    productSlug: product.slug
+  }))
+}
+
+
+
 export default async function ProductPage({ params }: NextPageProps<Props>) {
   const product = await getProduct(params.productSlug);
+
+  const paramss= await generateStaticParams()
+  console.log("ccc",paramss)
+
   if (!product) notFound();
+
 
   return (
     <SectionContainer wrapperClassName="max-w-5xl">
